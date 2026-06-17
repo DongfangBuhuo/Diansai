@@ -1,0 +1,47 @@
+# ========== STM32CubeMX ==========
+.mxproject
+
+# ========== Keil MDK-ARM 编译输出 ==========
+# 目标文件/列表文件/编译依赖
+MDK-ARM/**/*.o
+MDK-ARM/**/*.crf
+MDK-ARM/**/*.d
+MDK-ARM/**/*.lst
+MDK-ARM/**/*.dep
+
+# 可执行/固件输出
+MDK-ARM/**/*.axf
+MDK-ARM/**/*.hex
+MDK-ARM/**/*.bin
+MDK-ARM/**/*.map
+MDK-ARM/**/*.lnp
+MDK-ARM/**/*.sct
+
+# 构建日志/调试信息
+MDK-ARM/**/*.htm
+MDK-ARM/**/*.build_log.htm
+MDK-ARM/**/*.iex
+
+# JLink 日志
+JLinkLog.txt
+JLinkSettings.ini
+MDK-ARM/JLinkLog.txt
+MDK-ARM/JLinkSettings.ini
+
+# 调试配置（自动生成）
+MDK-ARM/DebugConfig/
+MDK-ARM/RTE/
+
+# 用户 IDE 配置（每个人的不同）
+*.uvguix.*
+*.uvoptx
+# 保留 .uvprojx（项目文件，需要共享）
+
+# ========== 通用 ==========
+# Windows
+Thumbs.db
+Desktop.ini
+
+# 编辑器临时文件
+*.bak
+*.swp
