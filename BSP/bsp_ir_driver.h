@@ -13,21 +13,31 @@
 #ifndef __BSP_IR_I2C_H
 #define __BSP_IR_I2C_H
 #include "stm32f4xx_hal.h"
+
 typedef enum
 {
     IR_OK,
     IR_ERROR,
 } ir_status_t;
+
+typedef struct ir_dev ir_dev_t;
+
 typedef struct
 {
-    // ir_status_t (*pf_ir_iic_start)(void *);
-    // ir_status_t (*pf_ir_iic_stop)(void *);
-    ir_status_t (*pf_ir_calibration_mode)(uint8_t is_on);
-    ir_status_t (*pf_ir_read_state)(uint8_t *receive);
-    // ir_status_t (*pf_iic_wait_ack)(void *); /*   IIC w-ack   */
-    // ir_status_t (*pf_iic_send_ack)(void *); /*   IIC s-ack   */
+    ir_status_t (*pf_ir_init)(ir_dev_t *dev);
+    ir_status_t (*pf_ir_calibration_mode)(ir_dev_t *dev, uint8_t is_on);
+    ir_status_t (*pf_ir_read_state)(ir_dev_t *dev, uint8_t *receive);
 } ir_ops_t;
-extern ir_ops_t ir_ops;
-void ir_init();
+
+struct ir_dev
+{
+    const ir_ops_t *ops;
+    void *ctx;
+};
+
+ir_dev_t *IR_GetDefaultDevice(void);
+ir_status_t IR_Init(ir_dev_t *dev);
+ir_status_t IR_SetCalibrationMode(ir_dev_t *dev, uint8_t is_on);
+ir_status_t IR_ReadState(ir_dev_t *dev, uint8_t *receive);
 
 #endif // !__BSP_IR_I2C_H
