@@ -61,6 +61,12 @@ void Error_Handler(void);
 #define PWMA_GPIO_Port GPIOA
 #define PWMB_Pin GPIO_PIN_1
 #define PWMB_GPIO_Port GPIOA
+#define ADC_Pin GPIO_PIN_2
+#define ADC_GPIO_Port GPIOA
+#define E1A_Pin GPIO_PIN_6
+#define E1A_GPIO_Port GPIOA
+#define E1B_Pin GPIO_PIN_7
+#define E1B_GPIO_Port GPIOA
 #define AIN1_Pin GPIO_PIN_0
 #define AIN1_GPIO_Port GPIOB
 #define AIN2_Pin GPIO_PIN_1
@@ -69,8 +75,10 @@ void Error_Handler(void);
 #define BIN1_GPIO_Port GPIOB
 #define BIN2_Pin GPIO_PIN_4
 #define BIN2_GPIO_Port GPIOB
-#define STBY_Pin GPIO_PIN_5
-#define STBY_GPIO_Port GPIOB
+#define E2A_Pin GPIO_PIN_6
+#define E2A_GPIO_Port GPIOB
+#define E2B_Pin GPIO_PIN_7
+#define E2B_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

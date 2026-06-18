@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
+#include "adc.h"
 #include "i2c.h"
 #include "tim.h"
 #include "usart.h"
@@ -26,8 +27,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "elog.h"
 #include "bsp_ir_driver.h"
+#include "elog.h"
 #include <stdio.h>
 /* USER CODE END Includes */
 
@@ -106,11 +107,14 @@ int main(void)
   MX_TIM2_Init();
   MX_I2C1_Init();
   MX_USART1_UART_Init();
+  MX_ADC1_Init();
+  MX_TIM3_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-	printf("Test\r\n");
-	app_elog_init();
-  elog_start();
-	ir_init();
+    app_elog_init();
+    elog_start();
+    ir_init();
+    Motor_Init();
   /* USER CODE END 2 */
 
   /* Init scheduler */
