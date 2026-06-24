@@ -16,14 +16,13 @@
  ************************************************************************/
 #include "app_ir.h"
 
+#include "FreeRTOS.h"
+#include "app_algorithm.h"
+#include "bsp_ir_driver.h"
+#include "task.h"
 #include <stdio.h>
 
-#include "FreeRTOS.h"
-#include "task.h"
-#include "bsp_ir_driver.h"
-
 static void AppIrTask(void *argument);
-
 /**
  * @brief APP 层红外模块初始化
  *
@@ -55,12 +54,7 @@ void AppIr_TaskCreate(void)
     ir_dev_t *ir_dev;
 
     ir_dev = IR_GetDefaultDevice();
-    (void)xTaskCreate(AppIrTask,
-                      "appIrTask",
-                      128,
-                      ir_dev,
-                      tskIDLE_PRIORITY + 1U,
-                      NULL);
+    (void)xTaskCreate(AppIrTask, "appIrTask", 128, ir_dev, tskIDLE_PRIORITY + 1U, NULL);
 }
 
 /**
@@ -77,6 +71,7 @@ void AppIr_TaskCreate(void)
 static void AppIrTask(void *argument)
 {
     ir_dev_t *ir_dev;
+    app_ir_data_t ir_data;
     uint8_t data;
 
     ir_dev = (ir_dev_t *)argument;
@@ -88,9 +83,19 @@ static void AppIrTask(void *argument)
     {
         if (IR_ReadState(ir_dev, &data) == IR_OK)
         {
-            printf("data is %d\r\n", data);
+            // printf("data is %d\r\n", data);
         }
+        ir_data.data.x1 = (data >> 7) & 0x01;
+        ir_data.data.x2 = (data >> 6) & 0x01;
+        ir_data.data.x3 = (data >> 5) & 0x01;
+        ir_data.data.x4 = (data >> 4) & 0x01;
+        ir_data.data.x5 = (data >> 3) & 0x01;
+        ir_data.data.x6 = (data >> 2) & 0x01;
+        ir_data.data.x7 = (data >> 1) & 0x01;
+        ir_data.data.x8 = (data >> 0) & 0x01;
+        // 从左到右依次是x1-x8 ，0表示黑线
+        AppAlgorithmGetIr(&ir_data);
 
-        vTaskDelay(pdMS_TO_TICKS(500U));
+        vTaskDelay(pdMS_TO_TICKS(30U));
     }
 }

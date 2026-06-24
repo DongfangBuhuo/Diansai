@@ -16,7 +16,7 @@
  ************************************************************************/
 #ifndef __APP_IR_H
 #define __APP_IR_H
-
+#include <stdint.h>
 /**
  * @brief APP 层红外模块初始化
  *
@@ -38,5 +38,20 @@ void AppIr_Init(void);
  * @retval None
  */
 void AppIr_TaskCreate(void);
+typedef union
+{
+    struct
+    {
+        uint8_t x1 : 1;
+        uint8_t x2 : 1;
+        uint8_t x3 : 1;
+        uint8_t x4 : 1;
+        uint8_t x5 : 1;
+        uint8_t x6 : 1;
+        uint8_t x7 : 1;
+        uint8_t x8 : 1;
+    } data;
 
+    uint8_t Alldata;
+} app_ir_data_t;
 #endif /* __APP_IR_H */

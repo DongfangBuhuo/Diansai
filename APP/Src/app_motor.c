@@ -23,24 +23,8 @@
 
 static void AppMotorTask(void *argument);
 
-/**
- * @brief 电机命令队列
- *
- * 该队列仅在本文件内使用, 用于缓存发往电机任务的控制命令。
- * 使用 static 的目的是限制其可见范围, 防止其他模块直接操作队列句柄。
- */
 static QueueHandle_t g_motor_cmd_queue;
 
-/**
- * @brief APP 层电机模块初始化
- *
- * 功能说明:
- * - 获取默认电机设备对象
- * - 调用 BSP 电机驱动初始化接口
- * - 创建电机命令队列
- *
- * @retval None
- */
 void AppMotor_Init(void)
 {
     motor_dev_t *motor_dev;
@@ -50,19 +34,10 @@ void AppMotor_Init(void)
 
     if (g_motor_cmd_queue == NULL)
     {
-        g_motor_cmd_queue = xQueueCreate(5, sizeof(app_motor_cmd_t));
+        g_motor_cmd_queue = xQueueCreate(1, sizeof(app_motor_cmd_t));
     }
 }
 
-/**
- * @brief APP 层电机任务创建接口
- *
- * 功能说明:
- * - 获取默认电机设备对象
- * - 使用原生 FreeRTOS 接口创建电机控制任务
- *
- * @retval None
- */
 void AppMotor_TaskCreate(void)
 {
     motor_dev_t *motor_dev;
@@ -71,17 +46,6 @@ void AppMotor_TaskCreate(void)
     (void)xTaskCreate(AppMotorTask, "appMotorTask", 256U, motor_dev, tskIDLE_PRIORITY + 1U, NULL);
 }
 
-/**
- * @brief 发送电机控制命令
- *
- * 功能说明:
- * - 检查命令指针和队列句柄合法性
- * - 将最新控制命令覆盖写入队列
- * - 保证电机任务始终处理最新的一条命令
- *
- * @param cmd 电机命令指针
- * @return BaseType_t 发送结果
- */
 BaseType_t AppMotor_SendCommand(const app_motor_cmd_t *cmd)
 {
     if ((cmd == NULL) || (g_motor_cmd_queue == NULL))
@@ -92,17 +56,6 @@ BaseType_t AppMotor_SendCommand(const app_motor_cmd_t *cmd)
     return xQueueOverwrite(g_motor_cmd_queue, cmd);
 }
 
-/**
- * @brief 电机控制任务函数
- *
- * 功能说明:
- * - 阻塞等待来自算法层或其他业务模块的电机命令
- * - 收到命令后依次设置方向、速度并执行更新
- * - 统一由本任务串行访问电机驱动, 降低并发访问风险
- *
- * @param argument 任务参数, 当前传入默认电机设备指针
- * @retval None
- */
 static void AppMotorTask(void *argument)
 {
     motor_dev_t *motor_dev;
@@ -115,7 +68,7 @@ static void AppMotorTask(void *argument)
         if (xQueueReceive(g_motor_cmd_queue, &cmd, portMAX_DELAY) == pdPASS)
         {
             (void)Motor_SetDir(motor_dev, cmd.dir);
-            (void)Motor_SetSpeed(motor_dev, cmd.speed);
+            (void)Motor_SetSpeed(motor_dev, cmd.speed_a, cmd.speed_b);
             (void)Motor_Update(motor_dev);
         }
     }

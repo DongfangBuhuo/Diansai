@@ -17,7 +17,45 @@
 #ifndef __APP_ALGORITHM_H
 #define __APP_ALGORITHM_H
 
+#include <stdint.h>
+
+#include "app_ir.h"
+
+typedef struct
+{
+    int16_t kp;
+    int16_t ki;
+    int16_t kd;
+    int16_t error;
+    int16_t last_error;
+    int16_t d_error;
+    int32_t integral;
+    int16_t output;
+} app_pid_t;
+
+typedef enum
+{
+    APP_LINE_STATE_NORMAL,
+    APP_LINE_STATE_TURN,
+    APP_LINE_STATE_SHARP_TURN,
+    APP_LINE_STATE_LOST,
+} app_track_state_t;
+
+typedef struct
+{
+    app_pid_t pid;
+    app_track_state_t track_state;
+    int16_t base_speed;
+    int16_t speed_min;
+    int16_t speed_max;
+    int16_t diff;
+    int16_t weighted_sum;
+    uint8_t active_count;
+    int16_t weights[8];
+} app_algorithm_t;
+
 void AppAlgorithm_Init(void);
 void AppAlgorithm_TaskCreate(void);
+void AppAlgorithmGetIr(app_ir_data_t *ir_data);
 
 #endif // !__APP_ALGORITHM_H
