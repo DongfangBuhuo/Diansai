@@ -17,18 +17,23 @@
 #include "app_motor.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #include "queue.h"
 #include "task.h"
 
+#define APP_MOTOR_TASK_PERIOD_MS (10U)
+
 static void AppMotorTask(void *argument);
 
 static QueueHandle_t g_motor_cmd_queue;
+static app_motor_cmd_t g_motor_cmd;
 
 void AppMotor_Init(void)
 {
     motor_dev_t *motor_dev;
 
+    (void)memset(&g_motor_cmd, 0, sizeof(g_motor_cmd));
     motor_dev = Motor_GetDefaultDevice();
     (void)Motor_Init(motor_dev);
 
@@ -59,17 +64,23 @@ BaseType_t AppMotor_SendCommand(const app_motor_cmd_t *cmd)
 static void AppMotorTask(void *argument)
 {
     motor_dev_t *motor_dev;
+    TickType_t last_wake;
     app_motor_cmd_t cmd;
 
     motor_dev = (motor_dev_t *)argument;
+    last_wake = xTaskGetTickCount();
 
     for (;;)
     {
-        if (xQueueReceive(g_motor_cmd_queue, &cmd, portMAX_DELAY) == pdPASS)
+        while (xQueueReceive(g_motor_cmd_queue, &cmd, 0U) == pdPASS)
         {
-            (void)Motor_SetDir(motor_dev, cmd.dir);
-            (void)Motor_SetSpeed(motor_dev, cmd.speed_a, cmd.speed_b);
-            (void)Motor_Update(motor_dev);
+            g_motor_cmd = cmd;
         }
+
+        (void)Motor_SetDir(motor_dev, g_motor_cmd.dir);
+        (void)Motor_SetSpeed(motor_dev, g_motor_cmd.speed_a, g_motor_cmd.speed_b);
+        (void)Motor_Update(motor_dev);
+
+        vTaskDelayUntil(&last_wake, pdMS_TO_TICKS(APP_MOTOR_TASK_PERIOD_MS));
     }
 }

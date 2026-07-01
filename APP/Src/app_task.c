@@ -17,6 +17,7 @@
 #include "app.h"
 
 #include "app_algorithm.h"
+#include "app_imu.h"
 #include "app_ir.h"
 #include "app_motor.h"
 
@@ -33,6 +34,7 @@
 void App_TaskCreate(void)
 {
     AppAlgorithm_TaskCreate();
+    AppImu_TaskCreate();
     AppIr_TaskCreate();
     AppMotor_TaskCreate();
 }

@@ -895,6 +895,11 @@
               <FileType>1</FileType>
               <FilePath>..\APP\Src\app_algorithm.c</FilePath>
             </File>
+            <File>
+              <FileName>app_imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\APP\Src\app_imu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -909,6 +914,11 @@
               <FileName>bsp_motor_driver.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\BSP\bsp_motor_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_mpu6050_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\bsp_mpu6050_driver.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -14,6 +14,8 @@
 #define __BSP_IR_I2C_H
 #include "stm32f4xx_hal.h"
 
+//#define IR_DEBUG
+
 typedef enum
 {
     IR_OK,

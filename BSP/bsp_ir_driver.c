@@ -88,7 +88,9 @@ static ir_status_t ir_stm32_read_state(ir_dev_t *dev, uint8_t *receive)
     if (HAL_OK != HAL_I2C_Mem_Read(
                       ctx->hi2c, ctx->address, IR_STATE_REG, I2C_MEMADD_SIZE_8BIT, receive, 1, 100))
     {
+#ifdef IR_DEBUG
         printf("I2C Err: State=%d, ErrorCode=0x%lx\r\n", ctx->hi2c->State, ctx->hi2c->ErrorCode);
+#endif
         return IR_ERROR;
     }
 

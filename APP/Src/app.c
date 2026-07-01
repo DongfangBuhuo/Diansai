@@ -17,6 +17,7 @@
 #include "app.h"
 
 #include "app_algorithm.h"
+#include "app_imu.h"
 #include "app_ir.h"
 #include "app_motor.h"
 #include "elog.h"
@@ -58,6 +59,7 @@ void App_Init(void)
 {
     App_LogInit();
     AppAlgorithm_Init();
+    AppImu_Init();
     AppIr_Init();
     AppMotor_Init();
 }

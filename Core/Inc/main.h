@@ -73,6 +73,10 @@ void Error_Handler(void);
 #define AIN2_GPIO_Port GPIOB
 #define BIN1_Pin GPIO_PIN_10
 #define BIN1_GPIO_Port GPIOB
+#define MPU_SCL_Pin GPIO_PIN_12
+#define MPU_SCL_GPIO_Port GPIOB
+#define MPU_SDA_Pin GPIO_PIN_13
+#define MPU_SDA_GPIO_Port GPIOB
 #define BIN2_Pin GPIO_PIN_4
 #define BIN2_GPIO_Port GPIOB
 #define E2A_Pin GPIO_PIN_6

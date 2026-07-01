@@ -68,7 +68,7 @@ static motor_status_t motor_set_speed(motor_dev_t *dev, int16_t speed_a, int16_t
 
     if (NULL == dev)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_ERROR: dev is NULL at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_ERROR;
@@ -86,7 +86,7 @@ static motor_status_t motor_set_dir(motor_dev_t *dev, motor_dir_t dir)
 
     if (NULL == dev)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_ERROR: dev is NULL at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_ERROR;
@@ -101,7 +101,7 @@ static motor_status_t motor_update(motor_dev_t *dev)
 {
     if (NULL == dev)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_ERROR: dev is NULL at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_ERROR;
@@ -189,7 +189,7 @@ motor_status_t Motor_Init(motor_dev_t *dev)
 {
     if (NULL == dev || NULL == dev->info || NULL == dev->ops)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_PARAMERROR: dev/info/ops is NULL at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_PARAMERROR;
@@ -203,7 +203,7 @@ motor_status_t Motor_SetDir(motor_dev_t *dev, motor_dir_t dir)
     if (NULL == dev || NULL == dev->ops || NULL == dev->ops->pf_motor_set_dir ||
         dir > MOTOR_RESERVE)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_PARAMERROR: invalid param at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_PARAMERROR;
@@ -215,7 +215,7 @@ motor_status_t Motor_SetSpeed(motor_dev_t *dev, int16_t speed_a, int16_t speed_b
 {
     if (NULL == dev || NULL == dev->ops || NULL == dev->ops->pf_motor_set_speed)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_PARAMERROR: dev/ops is NULL at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_PARAMERROR;
@@ -227,7 +227,7 @@ motor_status_t Motor_Update(motor_dev_t *dev)
 {
     if (NULL == dev || NULL == dev->ops || NULL == dev->ops->pf_motor_update)
     {
-#ifdef DEBUG
+#ifdef MOTOR_DEBUG
         printf("MOTOR_PARAMERROR: dev/ops is NULL at %s\r\n", __FUNCTION__);
 #endif
         return MOTOR_PARAMERROR;

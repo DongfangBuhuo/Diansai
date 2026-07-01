@@ -23,6 +23,9 @@
 #include "tim.h"
 #include <stdint.h>
 
+/*************** Macro *******************/
+//#define MOTOR_DEBUG
+
 /*************** Typedef *****************/
 typedef struct motor_dev motor_dev_t;
 
